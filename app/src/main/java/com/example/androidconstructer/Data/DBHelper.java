@@ -99,7 +99,9 @@ public class DBHelper extends SQLiteOpenHelper {
         String categoryBatton = "CREATE TABLE " + CATEGORY_BUTTON + "("
                 + OneCategory + " TEXT,"
                 + TwoCategory + " TEXT,"
-                + ThreeCategory + " TEXT"
+                + ThreeCategory + " TEXT,"
+                + "FourCategory" + " TEXT,"
+                + "FiveCategory" + " TEXT"
                 +")";
         db.execSQL(categoryBatton);
 
@@ -186,6 +188,48 @@ public class DBHelper extends SQLiteOpenHelper {
                 +")";
         db.execSQL(Category3);
 
+        String Category4 = "CREATE TABLE " + "Category4" + "("
+                + "id " + " INTEGER PRIMARY KEY,"
+                + "name " + " TEXT,"
+                + "price " + " TEXT,"
+                + "seil " + "TEXT,"
+                + "full_info " + "TEXT,"
+                + "litle_info " + "TEXT,"
+                + "image1 " + "TEXT,"
+                + "image2 " + "TEXT,"
+                + "image3 " + "TEXT,"
+                + "image4 " + "TEXT,"
+                + "image5 " + "TEXT,"
+                + "image6 " + "TEXT,"
+                + "image7 " + "TEXT,"
+                + "image8 " + "TEXT,"
+                + "image9 " + "TEXT,"
+                + "image10 " + "TEX,"
+                + "raiting "+"Int"
+                +")";
+        db.execSQL(Category4);
+
+        String Category5 = "CREATE TABLE " + "Category5" + "("
+                + "id " + " INTEGER PRIMARY KEY,"
+                + "name " + " TEXT,"
+                + "price " + " TEXT,"
+                + "seil " + "TEXT,"
+                + "full_info " + "TEXT,"
+                + "litle_info " + "TEXT,"
+                + "image1 " + "TEXT,"
+                + "image2 " + "TEXT,"
+                + "image3 " + "TEXT,"
+                + "image4 " + "TEXT,"
+                + "image5 " + "TEXT,"
+                + "image6 " + "TEXT,"
+                + "image7 " + "TEXT,"
+                + "image8 " + "TEXT,"
+                + "image9 " + "TEXT,"
+                + "image10 " + "TEX,"
+                + "raiting "+"Int"
+                +")";
+        db.execSQL(Category5);
+
 
 
         // Добавление данных в таблицу
@@ -263,7 +307,7 @@ public class DBHelper extends SQLiteOpenHelper {
 
     public Cursor getDataFromButtonCategoryTable() {
         SQLiteDatabase db5 = this.getReadableDatabase();
-        String[] columns = {OneCategory,TwoCategory,ThreeCategory};
+        String[] columns = {OneCategory,TwoCategory,ThreeCategory,"FourCategory","FiveCategory"};
         Cursor cursor4 = db5.query(CATEGORY_BUTTON, columns, null, null, null, null, null);
         return cursor4;
     }

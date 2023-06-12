@@ -32,7 +32,10 @@ class ItemDetailsActivity : AppCompatActivity() {
         val image_url = intent.getStringExtra("image_url")
          price = intent.getStringExtra("price")
         val info = intent.getStringExtra("full_info")
-        val sell = intent.getStringExtra("sell")
+        var sell = intent.getStringExtra("sell")
+        if(sell=="null") {
+            sell = ""
+        }
         val litle_info=intent.getStringExtra("litle_info")
 
         val rait=intent.getIntExtra("raiting",1)

@@ -126,7 +126,10 @@ class DownolandPage : AppCompatActivity() {
 
 
 
-
+        val buttonCategory4 = BattonCategory4(this, "новое значение логотипа")
+        buttonCategory4.execute()
+        val buttonCategory5 = BattonCategory5(this, "новое значение логотипа")
+        buttonCategory5.execute()
 
         val buttonCategory2 = BattonCategory2(this, "новое значение логотипа")
         buttonCategory2.execute()
@@ -205,6 +208,9 @@ class DownolandPage : AppCompatActivity() {
             synchronizeData1(this@DownolandPage)
             synchronizeData2(this@DownolandPage)
             synchronizeData3(this@DownolandPage)
+            synchronizeData4(this@DownolandPage)
+            synchronizeData5(this@DownolandPage)
+
         }
 
 
@@ -460,6 +466,108 @@ class DownolandPage : AppCompatActivity() {
         val connectivityManager = this.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
         val activeNetwork: NetworkInfo? = connectivityManager.activeNetworkInfo
         return activeNetwork?.isConnected == true
+    }
+
+    fun synchronizeData4(context:Context) {
+        coroutineScope.launch {
+            if (isNetworkConnected()) {
+                try {
+                    // Получаем данные из удаленной таблицы MySQL
+                    val url = URL("https://untr.ru/AndroidItem5.php")
+                    val connection = url.openConnection() as HttpURLConnection
+                    connection.requestMethod = "GET"
+                    val inputStream = connection.inputStream
+                    val json = inputStream.bufferedReader().use { it.readText() }
+                    val jsonArray = JSONArray(json)
+
+                    // Обновляем локальную таблицу SQLite
+                    val dbHelper = DBHelper(context)
+                    val db = dbHelper.writableDatabase
+                    val values = ContentValues()
+                    for (i in 0 until jsonArray.length()) {
+                        val jsonObject = jsonArray.getJSONObject(i)
+                        values.put("id", jsonObject.optInt("id"))
+                        values.put("name", jsonObject.optString("name",""))
+                        values.put("price", jsonObject.optString("price",""))
+                        values.put("seil", jsonObject.optString("seil",""))
+                        values.put("full_info", jsonObject.optString("full_info",""))
+                        values.put("litle_info", jsonObject.optString("litle_info",""))
+                        values.put("image1", jsonObject.optString("image1",""))
+                        values.put("image2", jsonObject.optString("image2",""))
+                        values.put("image3", jsonObject.optString("image3",""))
+                        values.put("image4", jsonObject.optString("image4",""))
+                        values.put("image5", jsonObject.optString("image5",""))
+                        values.put("image6", jsonObject.optString("image6",""))
+                        values.put("image7", jsonObject.optString("image7",""))
+                        values.put("image8", jsonObject.optString("image8",""))
+                        values.put("image9", jsonObject.optString("image9",""))
+                        values.put("image10", jsonObject.optString("image10",""))
+                        values.put("raiting", jsonObject.optInt("raiting"))
+                        val id = jsonObject.getInt("id")
+                        val rowsAffected = db.update("Category4", values, "id = $id", null)
+                        if (rowsAffected == 0) {
+                            db.insert("Category4", null, values)
+                        }
+                        Log.d("Добавленные значения", "data $values")
+                        values.clear()
+                    }
+                } catch (e: Exception) {
+                    Log.e(ContentValues.TAG, "Error synchronizing data", e)
+                }
+
+            }
+        }
+    }
+
+    fun synchronizeData5(context:Context) {
+        coroutineScope.launch {
+            if (isNetworkConnected()) {
+                try {
+                    // Получаем данные из удаленной таблицы MySQL
+                    val url = URL("https://untr.ru/AndroidItem6.php")
+                    val connection = url.openConnection() as HttpURLConnection
+                    connection.requestMethod = "GET"
+                    val inputStream = connection.inputStream
+                    val json = inputStream.bufferedReader().use { it.readText() }
+                    val jsonArray = JSONArray(json)
+
+                    // Обновляем локальную таблицу SQLite
+                    val dbHelper = DBHelper(context)
+                    val db = dbHelper.writableDatabase
+                    val values = ContentValues()
+                    for (i in 0 until jsonArray.length()) {
+                        val jsonObject = jsonArray.getJSONObject(i)
+                        values.put("id", jsonObject.optInt("id"))
+                        values.put("name", jsonObject.optString("name",""))
+                        values.put("price", jsonObject.optString("price",""))
+                        values.put("seil", jsonObject.optString("seil",""))
+                        values.put("full_info", jsonObject.optString("full_info",""))
+                        values.put("litle_info", jsonObject.optString("litle_info",""))
+                        values.put("image1", jsonObject.optString("image1",""))
+                        values.put("image2", jsonObject.optString("image2",""))
+                        values.put("image3", jsonObject.optString("image3",""))
+                        values.put("image4", jsonObject.optString("image4",""))
+                        values.put("image5", jsonObject.optString("image5",""))
+                        values.put("image6", jsonObject.optString("image6",""))
+                        values.put("image7", jsonObject.optString("image7",""))
+                        values.put("image8", jsonObject.optString("image8",""))
+                        values.put("image9", jsonObject.optString("image9",""))
+                        values.put("image10", jsonObject.optString("image10",""))
+                        values.put("raiting", jsonObject.optInt("raiting"))
+                        val id = jsonObject.getInt("id")
+                        val rowsAffected = db.update("Category5", values, "id = $id", null)
+                        if (rowsAffected == 0) {
+                            db.insert("Category5", null, values)
+                        }
+                        Log.d("Добавленные значения", "data $values")
+                        values.clear()
+                    }
+                } catch (e: Exception) {
+                    Log.e(ContentValues.TAG, "Error synchronizing data", e)
+                }
+
+            }
+        }
     }
 
 }

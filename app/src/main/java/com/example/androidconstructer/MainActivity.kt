@@ -37,7 +37,14 @@ import java.net.URL
 class MainActivity : AppCompatActivity() {
     var namingsize:String?=null
     var seillsize:String?=null
+    private lateinit var categoryButtonColor:String
     var pricesize:String?=null
+    private lateinit var button1: Button
+    private lateinit var button2: Button
+    private lateinit var button3: Button
+    private lateinit var scrollbutton4: Button
+    private lateinit var scrollbutton5: Button
+
     var namecolor:String?=null
     var infocolor:String?=null
     var ingosize:String?=null
@@ -48,16 +55,20 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        val button1=findViewById<Button>(R.id.Category1)
-        val scrollbutton1=findViewById<Button>(R.id.scrollbut1)
-        val scrollbutton2=findViewById<Button>(R.id.scrollbut2)
-        val scrollbutton3=findViewById<Button>(R.id.scrollbut3)
-        val scrollbutton4=findViewById<Button>(R.id.scrollbut4)
-
-        val button2=findViewById<Button>(R.id.Category2)
-        val button3=findViewById<Button>(R.id.Category3)
+        button1=findViewById<Button>(R.id.Category1)
+        scrollbutton4=findViewById<Button>(R.id.Category4)
+        scrollbutton5=findViewById<Button>(R.id.Category5)
+        button2=findViewById<Button>(R.id.Category2)
+         button3=findViewById<Button>(R.id.Category3)
         val dbHelper214 = DBHelper(this)
         val cursor214: Cursor = dbHelper214.getDataFromButtonCategoryTable()
+
+
+
+
+
+
+
 
         // Переходим к первой записи в результате запроса
 
@@ -66,13 +77,17 @@ class MainActivity : AppCompatActivity() {
             val oneCategoryIndex = cursor214.getColumnIndex(DBHelper.OneCategory)
             val twoCategoryIndex = cursor214.getColumnIndex(DBHelper.TwoCategory)
             val threeCategoryIndex = cursor214.getColumnIndex(DBHelper.ThreeCategory)
+            val FourCategoryIndex = cursor214.getColumnIndex("FourCategory")
+            val FiveCategoryIndex = cursor214.getColumnIndex("FiveCategory")
+
 
             button1.text = cursor214.getString(oneCategoryIndex)
             button2.text = cursor214.getString(twoCategoryIndex)
             button3.text = cursor214.getString(threeCategoryIndex)
-            scrollbutton1.text=cursor214.getString(oneCategoryIndex)
-            scrollbutton2.text=cursor214.getString(twoCategoryIndex)
-            scrollbutton3.text=cursor214.getString(threeCategoryIndex)
+            scrollbutton4.text=cursor214.getString(FourCategoryIndex)
+            scrollbutton5.text=cursor214.getString(FiveCategoryIndex)
+
+
 
 
             Log.d("Проверка кнопки", "$button1")
@@ -103,7 +118,7 @@ class MainActivity : AppCompatActivity() {
            val logoLocation = cursor.getString(cursor.getColumnIndex(DBHelper.KEY_LOGO_LOCATION)?:1)
             val mainActivityBackgroundColor =
                 cursor.getString(cursor.getColumnIndex(DBHelper.KEY_MAIN_ACTIVITY_BACKGROUND_COLOR)?:1)
-            val  categoryButtonColor =
+              categoryButtonColor =
                 cursor.getString(cursor.getColumnIndex(DBHelper.KEY_CATEGORY_BUTTON_COLOR)?:1)
             val productListItemBackgroundColor =
                 cursor.getString(cursor.getColumnIndex(DBHelper.KEY_PRODUCT_LIST_ITEM_BACKGROUND_COLOR)?:1)
@@ -145,15 +160,9 @@ class MainActivity : AppCompatActivity() {
             val layout:ConstraintLayout=findViewById(R.id.Mainconstr)
             layout.setBackgroundColor(Color.parseColor(mainActivityBackgroundColor))
             //Category color
+/*
 
-            button1.setBackgroundColor(Color.parseColor(categoryButtonColor))
-            button2.setBackgroundColor(Color.parseColor(categoryButtonColor))
-            button3.setBackgroundColor(Color.parseColor(categoryButtonColor))
-            scrollbutton1.setBackgroundColor(Color.parseColor(categoryButtonColor))
-            scrollbutton2.setBackgroundColor(Color.parseColor(categoryButtonColor))
-            scrollbutton3.setBackgroundColor(Color.parseColor(categoryButtonColor))
-            scrollbutton4.setBackgroundColor(Color.parseColor(categoryButtonColor))
-
+*/
 
             //App name
             val Nameapp=findViewById<TextView>(R.id.Nameapp)
@@ -171,6 +180,7 @@ class MainActivity : AppCompatActivity() {
 
 
         }
+
 
 
         // Закрываем курсор и базу данных
@@ -260,6 +270,10 @@ class MainActivity : AppCompatActivity() {
             synchronizeData1(this@MainActivity)
             synchronizeData2(this@MainActivity)
             synchronizeData3(this@MainActivity)
+            synchronizeData4(this@MainActivity)
+            synchronizeData5(this@MainActivity)
+
+
         }
 
 
@@ -306,7 +320,14 @@ class MainActivity : AppCompatActivity() {
         val items = getItemsFromDatabase()
         val adapter = ItemAdapter(this, items)
         recyclerView.adapter = adapter
+
+        button1.setBackgroundColor(Color.parseColor(categoryButtonColor))
+        button2.setBackgroundColor(Color.parseColor(categoryButtonColor))
+        button3.setBackgroundColor(Color.parseColor(categoryButtonColor))
+        scrollbutton4.setBackgroundColor(Color.parseColor(categoryButtonColor))
+        scrollbutton5.setBackgroundColor(Color.parseColor(categoryButtonColor))
         button1.setOnClickListener {
+            setButtonColors(button1)
             recyclerView.layoutManager = GridLayoutManager(this, 2, GridLayoutManager.VERTICAL, false)
             val items = getItemsFromDatabase1()
             val adapter = ItemAdapter(this, items)
@@ -314,98 +335,40 @@ class MainActivity : AppCompatActivity() {
 
         }
         button2.setOnClickListener {
+            setButtonColors(button2)
+
             recyclerView.layoutManager = GridLayoutManager(this, 2, GridLayoutManager.VERTICAL, false)
             val items = getItemsFromDatabase2()
             val adapter = ItemAdapter(this, items)
             recyclerView.adapter = adapter
 
         }
+
         button3.setOnClickListener {
+            setButtonColors(button3)
+
             recyclerView.layoutManager = GridLayoutManager(this, 2, GridLayoutManager.VERTICAL, false)
             val items = getItemsFromDatabase3()
             val adapter = ItemAdapter(this, items)
             recyclerView.adapter = adapter
-
-        }
-        val imageScroll=findViewById<ImageView>(R.id.ImageScroll)
-        var ik=0
-        imageScroll.setOnClickListener {
-            Log.d("ikkkkkkkkkkkkk","$ik")
-            if (ik==0){
-                ik++
-                scrollbutton1.visibility=View.VISIBLE
-                scrollbutton2.visibility=View.VISIBLE
-                scrollbutton3.visibility=View.VISIBLE
-                scrollbutton4.visibility=View.VISIBLE
-                button3.visibility=View.GONE
-
-
-            }else if (ik==1){
-                ik--
-                scrollbutton1.visibility=View.GONE
-                scrollbutton2.visibility=View.GONE
-                scrollbutton3.visibility=View.GONE
-                scrollbutton4.visibility=View.GONE
-                button3.visibility=View.VISIBLE
-
-            }
-        }
-        scrollbutton1.setOnClickListener {
-            recyclerView.layoutManager = GridLayoutManager(this, 2, GridLayoutManager.VERTICAL, false)
-            val items = getItemsFromDatabase1()
-            val adapter = ItemAdapter(this, items)
-            recyclerView.adapter = adapter
-            scrollbutton1.visibility=View.GONE
-            scrollbutton2.visibility=View.GONE
-            scrollbutton3.visibility=View.GONE
-            scrollbutton4.visibility=View.GONE
-            button3.visibility=View.VISIBLE
-
-            ik--
-
-        }
-        scrollbutton2.setOnClickListener {
-            recyclerView.layoutManager = GridLayoutManager(this, 2, GridLayoutManager.VERTICAL, false)
-            val items = getItemsFromDatabase2()
-            val adapter = ItemAdapter(this, items)
-            recyclerView.adapter = adapter
-            recyclerView.adapter = adapter
-            scrollbutton1.visibility=View.GONE
-            scrollbutton2.visibility=View.GONE
-            scrollbutton3.visibility=View.GONE
-            scrollbutton4.visibility=View.GONE
-            button3.visibility=View.VISIBLE
-
-            ik--
-
-        }
-        scrollbutton3.setOnClickListener {
-            recyclerView.layoutManager = GridLayoutManager(this, 2, GridLayoutManager.VERTICAL, false)
-            val items = getItemsFromDatabase3()
-            val adapter = ItemAdapter(this, items)
-            recyclerView.adapter = adapter
-            recyclerView.adapter = adapter
-            scrollbutton1.visibility=View.GONE
-            scrollbutton2.visibility=View.GONE
-            scrollbutton3.visibility=View.GONE
-            scrollbutton4.visibility=View.GONE
-            button3.visibility=View.VISIBLE
-
-            ik--
 
         }
         scrollbutton4.setOnClickListener {
+            setButtonColors(scrollbutton4)
+
             recyclerView.layoutManager = GridLayoutManager(this, 2, GridLayoutManager.VERTICAL, false)
-            val items = getItemsFromDatabase()
+            val items = getItemsFromDatabase4()
             val adapter = ItemAdapter(this, items)
             recyclerView.adapter = adapter
+
+        }
+        scrollbutton5.setOnClickListener {
+            setButtonColors(scrollbutton5)
+
+            recyclerView.layoutManager = GridLayoutManager(this, 2, GridLayoutManager.VERTICAL, false)
+            val items = getItemsFromDatabase5()
+            val adapter = ItemAdapter(this, items)
             recyclerView.adapter = adapter
-            scrollbutton1.visibility=View.GONE
-            scrollbutton2.visibility=View.GONE
-            scrollbutton3.visibility=View.GONE
-            scrollbutton4.visibility=View.GONE
-            button3.visibility=View.VISIBLE
-            ik--
 
         }
 
@@ -865,6 +828,211 @@ class MainActivity : AppCompatActivity() {
         val connectivityManager = this.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
         val activeNetwork: NetworkInfo? = connectivityManager.activeNetworkInfo
         return activeNetwork?.isConnected == true
+    }
+    private fun getItemsFromDatabase4(): List<ItemAdapter.Item> {
+        val items = mutableListOf<ItemAdapter.Item>()
+        val dbHelper = DBHelper(this)
+        val db = dbHelper.readableDatabase
+        val projection = arrayOf(
+            "id", "name", "price", "seil", "full_info", "litle_info",
+            "image1", "image2", "image3", "image4", "image5",
+            "image6", "image7", "image8", "image9", "image10", "raiting"
+        )
+        val sortOrder = "raiting DESC"
+        val cursor4 = db.query(
+            "Category4",
+            projection,
+            null,
+            null,
+            null,
+            null,
+            sortOrder
+        )
+
+        while (cursor4.moveToNext()) { // Исправлено здесь
+            val id = cursor4.getInt(cursor4.getColumnIndexOrThrow("id"))
+            val name = cursor4.getString(cursor4.getColumnIndexOrThrow("name"))
+            val price = cursor4.getString(cursor4.getColumnIndexOrThrow("price"))
+            val seil = cursor4.getString(cursor4.getColumnIndexOrThrow("seil"))
+            val fullInfo = cursor4.getString(cursor4.getColumnIndexOrThrow("full_info"))
+            val litleInfo = cursor4.getString(cursor4.getColumnIndexOrThrow("litle_info"))
+            val imageUrls = mutableListOf<String>()
+            for (i in 1..10) {
+                val imageUrl = cursor4.getString(cursor4.getColumnIndexOrThrow("image$i"))
+                if (!imageUrl.isNullOrBlank()) {
+                    imageUrls.add(imageUrl)
+                }
+            }
+            val rating = cursor4.getInt(cursor4.getColumnIndexOrThrow("raiting"))
+            items.add(ItemAdapter.Item(id, name, price, seil, fullInfo, litleInfo, imageUrls, rating,adapterback.toString(),namingsize.toString(),namecolor.toString(),
+                pricesize.toString(),pricecolor.toString(), seillsize.toString(),seilcolor.toString(),infocolor.toString(),ingosize.toString()))
+
+        }
+        return items
+        cursor4.close()
+        dbHelper.close()
+
+
+    }
+
+
+    private fun getItemsFromDatabase5(): List<ItemAdapter.Item> {
+        val items = mutableListOf<ItemAdapter.Item>()
+        val dbHelper = DBHelper(this)
+        val db = dbHelper.readableDatabase
+        val projection = arrayOf(
+            "id", "name", "price", "seil", "full_info", "litle_info",
+            "image1", "image2", "image3", "image4", "image5",
+            "image6", "image7", "image8", "image9", "image10", "raiting"
+        )
+        val sortOrder = "raiting DESC"
+        val cursor4 = db.query(
+            "Category5",
+            projection,
+            null,
+            null,
+            null,
+            null,
+            sortOrder
+        )
+
+        while (cursor4.moveToNext()) { // Исправлено здесь
+            val id = cursor4.getInt(cursor4.getColumnIndexOrThrow("id"))
+            val name = cursor4.getString(cursor4.getColumnIndexOrThrow("name"))
+            val price = cursor4.getString(cursor4.getColumnIndexOrThrow("price"))
+            val seil = cursor4.getString(cursor4.getColumnIndexOrThrow("seil"))
+            val fullInfo = cursor4.getString(cursor4.getColumnIndexOrThrow("full_info"))
+            val litleInfo = cursor4.getString(cursor4.getColumnIndexOrThrow("litle_info"))
+            val imageUrls = mutableListOf<String>()
+            for (i in 1..10) {
+                val imageUrl = cursor4.getString(cursor4.getColumnIndexOrThrow("image$i"))
+                if (!imageUrl.isNullOrBlank()) {
+                    imageUrls.add(imageUrl)
+                }
+            }
+            val rating = cursor4.getInt(cursor4.getColumnIndexOrThrow("raiting"))
+            items.add(ItemAdapter.Item(id, name, price, seil, fullInfo, litleInfo, imageUrls, rating,adapterback.toString(),namingsize.toString(),namecolor.toString(),
+                pricesize.toString(),pricecolor.toString(), seillsize.toString(),seilcolor.toString(),infocolor.toString(),ingosize.toString()))
+
+        }
+        return items
+        cursor4.close()
+        dbHelper.close()
+
+
+    }
+
+    fun synchronizeData4(context:Context) {
+        coroutineScope.launch {
+            if (isNetworkConnected()) {
+                try {
+                    // Получаем данные из удаленной таблицы MySQL
+                    val url = URL("https://untr.ru/AndroidItem5.php")
+                    val connection = url.openConnection() as HttpURLConnection
+                    connection.requestMethod = "GET"
+                    val inputStream = connection.inputStream
+                    val json = inputStream.bufferedReader().use { it.readText() }
+                    val jsonArray = JSONArray(json)
+
+                    // Обновляем локальную таблицу SQLite
+                    val dbHelper = DBHelper(context)
+                    val db = dbHelper.writableDatabase
+                    val values = ContentValues()
+                    for (i in 0 until jsonArray.length()) {
+                        val jsonObject = jsonArray.getJSONObject(i)
+                        values.put("id", jsonObject.optInt("id"))
+                        values.put("name", jsonObject.optString("name",""))
+                        values.put("price", jsonObject.optString("price",""))
+                        values.put("seil", jsonObject.optString("seil",""))
+                        values.put("full_info", jsonObject.optString("full_info",""))
+                        values.put("litle_info", jsonObject.optString("litle_info",""))
+                        values.put("image1", jsonObject.optString("image1",""))
+                        values.put("image2", jsonObject.optString("image2",""))
+                        values.put("image3", jsonObject.optString("image3",""))
+                        values.put("image4", jsonObject.optString("image4",""))
+                        values.put("image5", jsonObject.optString("image5",""))
+                        values.put("image6", jsonObject.optString("image6",""))
+                        values.put("image7", jsonObject.optString("image7",""))
+                        values.put("image8", jsonObject.optString("image8",""))
+                        values.put("image9", jsonObject.optString("image9",""))
+                        values.put("image10", jsonObject.optString("image10",""))
+                        values.put("raiting", jsonObject.optInt("raiting"))
+                        val id = jsonObject.getInt("id")
+                        val rowsAffected = db.update("Category4", values, "id = $id", null)
+                        if (rowsAffected == 0) {
+                            db.insert("Category4", null, values)
+                        }
+                        Log.d("Добавленные значения", "data $values")
+                        values.clear()
+                    }
+                } catch (e: Exception) {
+                    Log.e(TAG, "Error synchronizing data", e)
+                }
+
+            }
+        }
+    }
+
+    fun synchronizeData5(context:Context) {
+        coroutineScope.launch {
+            if (isNetworkConnected()) {
+                try {
+                    // Получаем данные из удаленной таблицы MySQL
+                    val url = URL("https://untr.ru/AndroidItem6.php")
+                    val connection = url.openConnection() as HttpURLConnection
+                    connection.requestMethod = "GET"
+                    val inputStream = connection.inputStream
+                    val json = inputStream.bufferedReader().use { it.readText() }
+                    val jsonArray = JSONArray(json)
+
+                    // Обновляем локальную таблицу SQLite
+                    val dbHelper = DBHelper(context)
+                    val db = dbHelper.writableDatabase
+                    val values = ContentValues()
+                    for (i in 0 until jsonArray.length()) {
+                        val jsonObject = jsonArray.getJSONObject(i)
+                        values.put("id", jsonObject.optInt("id"))
+                        values.put("name", jsonObject.optString("name",""))
+                        values.put("price", jsonObject.optString("price",""))
+                        values.put("seil", jsonObject.optString("seil",""))
+                        values.put("full_info", jsonObject.optString("full_info",""))
+                        values.put("litle_info", jsonObject.optString("litle_info",""))
+                        values.put("image1", jsonObject.optString("image1",""))
+                        values.put("image2", jsonObject.optString("image2",""))
+                        values.put("image3", jsonObject.optString("image3",""))
+                        values.put("image4", jsonObject.optString("image4",""))
+                        values.put("image5", jsonObject.optString("image5",""))
+                        values.put("image6", jsonObject.optString("image6",""))
+                        values.put("image7", jsonObject.optString("image7",""))
+                        values.put("image8", jsonObject.optString("image8",""))
+                        values.put("image9", jsonObject.optString("image9",""))
+                        values.put("image10", jsonObject.optString("image10",""))
+                        values.put("raiting", jsonObject.optInt("raiting"))
+                        val id = jsonObject.getInt("id")
+                        val rowsAffected = db.update("Category5", values, "id = $id", null)
+                        if (rowsAffected == 0) {
+                            db.insert("Category5", null, values)
+                        }
+                        Log.d("Добавленные значения", "data $values")
+                        values.clear()
+                    }
+                } catch (e: Exception) {
+                    Log.e(TAG, "Error synchronizing data", e)
+                }
+
+            }
+        }
+    }
+    private fun setButtonColors(selectedButton: Button) {
+        val selectedColor = Color.parseColor("#9999FF")
+        val defaultColor = Color.parseColor(categoryButtonColor)
+
+        button1.setBackgroundColor(if (selectedButton == button1) selectedColor else defaultColor)
+        button2.setBackgroundColor(if (selectedButton == button2) selectedColor else defaultColor)
+        button3.setBackgroundColor(if (selectedButton == button3) selectedColor else defaultColor)
+        scrollbutton4.setBackgroundColor(if (selectedButton == scrollbutton4) selectedColor else defaultColor)
+        scrollbutton5.setBackgroundColor(if (selectedButton == scrollbutton5) selectedColor else defaultColor)
+
     }
 
 }

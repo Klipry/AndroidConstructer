@@ -15,6 +15,7 @@
         android:bufferType="normal"
         android:ellipsize="marquee"
         android:fadeScrollbars="false"
+        android:fontFamily="@font/agavalanchec"
         android:gravity="bottom|center"
         android:text="TextView"
         android:textColor="#000000"
@@ -30,6 +31,7 @@
         android:id="@+id/textViewsell"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:fontFamily="@font/agavalanchec"
         android:text="TextView"
         android:textSize="34sp"
         app:layout_constraintBottom_toTopOf="@+id/imageView"
@@ -55,13 +57,17 @@
         app:layout_constraintBottom_toTopOf="@+id/guideline2"
         app:layout_constraintEnd_toEndOf="@+id/imageView"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imageView">
+        app:layout_constraintTop_toBottomOf="@+id/imageView"
+        app:layout_constraintVertical_bias="0.51">
 
         <TextView
             android:id="@+id/textViewInfo"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
+            android:layout_marginTop="20dp"
+            android:layout_marginEnd="5dp"
+            android:fontFamily="@font/agavalanchec"
             android:scrollbars="none"
             android:text="TextView"
             android:textSize="16dp" />
@@ -136,6 +142,7 @@
         android:id="@+id/imageView5"
         android:layout_width="0dp"
         android:layout_height="0dp"
+        android:visibility="invisible"
         app:layout_constraintBottom_toBottomOf="@+id/imageView"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/imageView"
@@ -146,6 +153,7 @@
         android:id="@+id/imageView6"
         android:layout_width="0dp"
         android:layout_height="0dp"
+        android:visibility="invisible"
         app:layout_constraintBottom_toBottomOf="@+id/imageView"
         app:layout_constraintEnd_toStartOf="@+id/imageView"
         app:layout_constraintHorizontal_bias="1.0"

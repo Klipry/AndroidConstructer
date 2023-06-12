@@ -13,6 +13,7 @@ import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.appcompat.view.menu.MenuView.ItemView
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager2.widget.ViewPager2
 import com.example.androidconstructer.Data.ImageLoader
@@ -28,10 +29,14 @@ class ItemAdapter2(private val context: Context, private val items: List<ItemFav
         var item = items[position]
 
         holder.nameTextView.text = item.name
-        holder.sellTextView.text = item.sell
+        if(item.sell=="null"){
+            holder.sellTextView.text = ""
+        }else{
+            holder.sellTextView.text = item.sell
+        }
         holder.priceTextView.text = item.price
         holder.infoTextView.text = item.little_info
-
+        holder.Back.setBackgroundColor(Color.parseColor(item.back))
         holder.nameTextView.setTextColor(Color.parseColor(item.name_color))
         holder.infoTextView.setTextColor(Color.parseColor(item.info_color))
         holder.sellTextView.setTextColor(Color.parseColor(item.sell_color))
@@ -86,10 +91,12 @@ class ItemAdapter2(private val context: Context, private val items: List<ItemFav
         val imageView9: ImageView = itemView.findViewById(R.id.item_image)
         val imageView10: ImageView = itemView.findViewById(R.id.item_image)
         val nameTextView: TextView = itemView.findViewById(R.id.item_name)
-        val bucks:LinearLayout = itemView.findViewById(R.id.lolipop)
+        val bucks:ConstraintLayout = itemView.findViewById(R.id.lolipop)
         val sellTextView: TextView = itemView.findViewById(R.id.item_sell)
         val priceTextView: TextView = itemView.findViewById(R.id.item_price)
         val infoTextView: TextView = itemView.findViewById(R.id.item_info)
+        val Back: ConstraintLayout = itemView.findViewById(R.id.lolipop)
+
 
         init {
             itemView.setOnClickListener(this)
